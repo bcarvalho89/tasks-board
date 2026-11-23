@@ -1,11 +1,5 @@
+import type { Task } from "@/schemas/task";
 import "server-only";
-
-type Task = {
-  id: string;
-  titulo: string;
-  descricao?: string;
-  dataCriacao: number;
-};
 
 const collection: Map<string, Task> = new Map();
 

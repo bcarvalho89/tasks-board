@@ -1,0 +1,7 @@
+allowBuilds:
+  sharp: false
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - "@trpc/client@11.29.11"
+  - "@trpc/server@11.29.11"
+  - "@trpc/tanstack-react-query@11.29.11"

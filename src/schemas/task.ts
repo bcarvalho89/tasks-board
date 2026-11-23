@@ -28,13 +28,13 @@ const taskCreateInputSchema = taskSchema.pick({
 // If the description is a valid text, it is replaced.
 const taskUpdateInputSchema = taskSchema.omit({ dataCriacao: true });
 
-const taskDeleteInputSchema = taskSchema.pick({ id: true });
+const taskIdInputSchema = taskSchema.pick({ id: true });
 
 type Task = z.infer<typeof taskSchema>;
 
 export {
   taskCreateInputSchema,
   taskUpdateInputSchema,
-  taskDeleteInputSchema,
+  taskIdInputSchema,
   type Task,
 };

@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tasks-board
 
-## Getting Started
+A simple task manager: list, create, edit and delete tasks. The backend keeps tasks in memory (no database) and exposes them through tRPC; the task list is server-side rendered.
 
-First, run the development server:
+> Work in progress.
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) with React 19
+- [tRPC 11](https://trpc.io) with [TanStack Query 5](https://tanstack.com/query)
+- [Zod 4](https://zod.dev) for input validation
+- [Tailwind CSS 4](https://tailwindcss.com)
+- TypeScript, ESLint, Prettier
+
+## Running
+
+Requirements: Node.js 20.9+ and [pnpm](https://pnpm.io).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For a production build:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm build
+pnpm start
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script              | What it does                         |
+| ------------------- | ------------------------------------ |
+| `pnpm dev`          | Starts the development server        |
+| `pnpm build`        | Builds for production                |
+| `pnpm start`        | Serves the production build          |
+| `pnpm lint`         | Runs ESLint                          |
+| `pnpm typecheck`    | Generates route types and runs `tsc` |
+| `pnpm format`       | Formats the code with Prettier       |
+| `pnpm format:check` | Checks formatting without writing    |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+src/
+├── app/
+│   ├── api/trpc/[trpc]/route.ts  # HTTP entry point for tRPC
+│   ├── layout.tsx                # Root layout with the tRPC/React Query provider
+│   └── page.tsx                  # Task list (server-side rendered)
+├── components/                   # Client components
+├── schemas/task.ts               # Zod schemas shared by server and client
+├── server/
+│   ├── api/                      # tRPC init, routers and the AppRouter type
+│   └── store/tasks.ts            # In-memory task store
+└── trpc/                         # tRPC clients for Client and Server Components
+```

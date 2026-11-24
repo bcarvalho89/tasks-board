@@ -2,7 +2,7 @@ import { EditTaskForm } from "@/components/edit-task-form";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
-import Link from "next/link";
+import { BackLink } from "@/components/back-link";
 import { notFound } from "next/navigation";
 
 export const instant = false;
@@ -26,12 +26,14 @@ export default async function EditTask(props: PageProps<"/tasks/[id]">) {
     });
 
   return (
-    <div>
+    <div className="grid gap-4">
+      <BackLink className="justify-self-start" />
+      <h1 className="text-2xl font-bold wrap-break-word">
+        Edit &quot;{task.titulo}&quot;
+      </h1>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <h1>Edit &quot;{task.titulo}&quot;</h1>
         <EditTaskForm id={id} />
       </HydrationBoundary>
-      <Link href="/">Back to tasks</Link>
     </div>
   );
 }

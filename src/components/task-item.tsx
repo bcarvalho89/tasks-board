@@ -2,6 +2,7 @@ import type { TaskRouterOutputs } from "@/trpc/react";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./toast";
+import Link from "next/link";
 
 export const TaskItem = (task: TaskRouterOutputs["get"]) => {
   const { id, titulo } = task;
@@ -32,7 +33,7 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
 
   return (
     <li>
-      {titulo}
+      <Link href={`/tasks/${id}`}>{titulo}</Link>
       <button onClick={() => remove({ id })} disabled={isPending}>
         Remove
       </button>

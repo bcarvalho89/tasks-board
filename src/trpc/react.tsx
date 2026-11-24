@@ -7,10 +7,11 @@ import { createTRPCContext } from "@trpc/tanstack-react-query";
 import { useState } from "react";
 import { makeQueryClient } from "./query-client";
 import type { AppRouter } from "@/server/api/root";
-import type { inferRouterOutputs } from "@trpc/server";
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 export type TaskRouterOutputs = inferRouterOutputs<AppRouter>["task"];
+export type TaskRouterInputs = inferRouterInputs<AppRouter>["task"];
 
 // Defining browserQueryClient at module level lets us reuse the client,
 // avoiding creating a new one when the first render suspends.

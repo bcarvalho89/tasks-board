@@ -1,5 +1,12 @@
 import "server-only";
-import { create, get, list, remove, update } from "@/server/store/tasks";
+import {
+  create,
+  get,
+  isFull,
+  list,
+  remove,
+  update,
+} from "@/server/store/tasks";
 import { publicProcedure, router } from "@/server/api/trpc";
 import {
   taskCreateInputSchema,
@@ -16,6 +23,13 @@ export const taskRouter = router({
 
   create: publicProcedure.input(taskCreateInputSchema).mutation(({ input }) => {
     const payload = input;
+
+    if (isFull()) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "The board is full. Remove a task before adding another.",
+      });
+    }
 
     return create(payload);
   }),

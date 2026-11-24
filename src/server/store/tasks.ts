@@ -37,6 +37,11 @@ const get = (id: string) => {
   return null;
 };
 
+// The store lives in memory, so a cap keeps a public demo from filling it.
+const MAX_TASKS = 500;
+
+const isFull = () => collection.size >= MAX_TASKS;
+
 const create = (payload: Pick<Task, "descricao" | "titulo">) => {
   const id = crypto.randomUUID();
   const creationDate = Date.now();
@@ -87,4 +92,4 @@ if (process.env.NODE_ENV === "development" && collection.size === 0) {
   }
 }
 
-export { type Task, list, get, create, update, remove };
+export { type Task, list, get, create, update, remove, isFull };

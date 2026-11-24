@@ -6,7 +6,8 @@ export const getErrorMessage = (error: unknown) => {
       return "Couldn't reach the server. Check your connection.";
     }
 
-    if (error.data.httpStatus === 404) {
+    // Only these messages are written by us; the others may be technical.
+    if (error.data.httpStatus === 403 || error.data.httpStatus === 404) {
       return error.message;
     }
   }

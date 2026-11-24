@@ -4,9 +4,11 @@ import { useTRPC } from "@/trpc/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { TaskItem } from "./task-item";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export const TaskList = () => {
   const trpc = useTRPC();
+  const loadMoreButtonRef = useRef<HTMLButtonElement>(null);
 
   const {
     data,
@@ -25,6 +27,27 @@ export const TaskList = () => {
       },
     ),
   );
+
+  useEffect(() => {
+    if (!loadMoreButtonRef.current) {
+      return;
+    }
+
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+
+    intersectionObserver.observe(loadMoreButtonRef.current);
+
+    return () => {
+      intersectionObserver.disconnect();
+    };
+  }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   if (isPending) {
     return <p>Loading</p>;
@@ -55,7 +78,11 @@ export const TaskList = () => {
         </ul>
 
         {hasNextPage && (
-          <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          <button
+            ref={loadMoreButtonRef}
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
             {isFetchingNextPage ? "Loading more tasks" : "Load more tasks"}
           </button>
         )}

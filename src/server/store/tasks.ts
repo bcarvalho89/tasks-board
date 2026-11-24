@@ -1,7 +1,15 @@
 import type { Task } from "@/schemas/task";
 import "server-only";
 
-const collection: Map<string, Task> = new Map();
+// The route handler and the page load separate copies of this module, so the
+// collection lives in globalThis to share one Map. It also survives hot reload.
+const globalForCollection = globalThis as unknown as {
+  collection: Map<string, Task> | undefined;
+};
+
+const collection = globalForCollection.collection ?? new Map<string, Task>();
+
+globalForCollection.collection = collection;
 
 const list = () => {
   const tasks = collection.values();

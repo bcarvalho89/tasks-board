@@ -5,4 +5,4 @@ const trpc = initTRPC.create();
 
 export const router = trpc.router;
 export const publicProcedure = trpc.procedure;
-export const createCallerFactory = trpc.createCallerFactory;
+export const createContext = () => ({});

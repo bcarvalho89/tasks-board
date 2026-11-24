@@ -6,12 +6,15 @@ import Link from "next/link";
 import { getErrorMessage } from "@/lib/error-message";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { ConfirmDialog } from "./ui/confirm-dialog";
 
 export const TaskItem = (task: TaskRouterOutputs["get"]) => {
   const { id, titulo, descricao } = task;
   const { show } = useToast();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const { mutate: remove, isPending } = useMutation(
     trpc.task.remove.mutationOptions({
@@ -30,6 +33,11 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
           message: getErrorMessage(error),
           type: "error",
         });
+      },
+      // Runs after the invalidation above settles, so the dialog stays open
+      // with the spinner until the list no longer shows the task.
+      onSettled: () => {
+        setIsConfirmOpen(false);
       },
     }),
   );
@@ -51,12 +59,21 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
       <Button
         variant="destructive"
         size="icon"
-        isLoading={isPending}
         aria-label={`Remove ${titulo}`}
-        onClick={() => remove({ id })}
+        onClick={() => setIsConfirmOpen(true)}
       >
         <Trash2 />
       </Button>
+
+      <ConfirmDialog
+        open={isConfirmOpen}
+        title="Remove this task?"
+        description={`"${titulo}" will be permanently removed.`}
+        confirmLabel="Remove task"
+        isLoading={isPending}
+        onConfirm={() => remove({ id })}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </li>
   );
 };

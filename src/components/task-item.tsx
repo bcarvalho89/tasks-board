@@ -4,9 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./toast";
 import Link from "next/link";
 import { getErrorMessage } from "@/lib/error-message";
+import { Button } from "./ui/button";
+import { Trash2 } from "lucide-react";
 
 export const TaskItem = (task: TaskRouterOutputs["get"]) => {
-  const { id, titulo } = task;
+  const { id, titulo, descricao } = task;
   const { show } = useToast();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -33,11 +35,28 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
   );
 
   return (
-    <li>
-      <Link href={`/tasks/${id}`}>{titulo}</Link>
-      <button onClick={() => remove({ id })} disabled={isPending}>
-        Remove
-      </button>
+    <li className="flex items-center justify-between gap-3 rounded-md border border-border bg-card py-1 pr-1 pl-4">
+      <div className="grid min-w-0 py-2">
+        <Link
+          href={`/tasks/${id}`}
+          className="truncate rounded-sm font-semibold underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+        >
+          {titulo}
+        </Link>
+        {descricao && (
+          <p className="truncate text-sm text-muted-foreground">{descricao}</p>
+        )}
+      </div>
+
+      <Button
+        variant="destructive"
+        size="icon"
+        isLoading={isPending}
+        aria-label={`Remove ${titulo}`}
+        onClick={() => remove({ id })}
+      >
+        <Trash2 />
+      </Button>
     </li>
   );
 };

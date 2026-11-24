@@ -2,7 +2,7 @@
 
 A small task manager: list, create, edit and remove tasks. The backend keeps tasks in memory and exposes them through tRPC. The task list is server-side rendered and loads more tasks as you scroll.
 
-**Demo:** https://brunocarvalho.me/demos/task-board
+**Demo:** https://demos.brunocarvalho.me/task-board (shared by every visitor, limited to 500 tasks and reset once a day)
 
 ## Stack
 

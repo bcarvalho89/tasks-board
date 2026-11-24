@@ -68,4 +68,13 @@ const remove = (id: string) => {
   return null;
 };
 
+if (process.env.NODE_ENV === "development" && collection.size === 0) {
+  for (let i = 0; i < 80; i++) {
+    create({
+      titulo: `Task ${i + 1}`,
+      descricao: null,
+    });
+  }
+}
+
 export { type Task, list, get, create, update, remove };

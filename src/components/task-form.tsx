@@ -15,7 +15,7 @@ interface TaskFormProps {
   initialValues?: TaskFormValues;
   onSubmit: (values: TaskRouterInputs["create"]) => void;
   isSubmitting: boolean;
-  serverError?: Error | null;
+  serverError?: string;
 }
 
 const defaultValues: TaskFormValues = {
@@ -79,7 +79,7 @@ export const TaskForm = (props: TaskFormProps) => {
         )}
       </div>
 
-      {serverError?.message && <p role="alert">{serverError.message}</p>}
+      {serverError && <p role="alert">{serverError}</p>}
 
       <button type="submit" disabled={isSubmitting}>
         {initialValues ? "Update" : "Create"} task

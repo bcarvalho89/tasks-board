@@ -3,6 +3,7 @@
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { TaskItem } from "./task-item";
+import Link from "next/link";
 
 export const TaskList = () => {
   const trpc = useTRPC();
@@ -13,13 +14,22 @@ export const TaskList = () => {
     return <p>Loading</p>;
   }
 
-  if (data?.length === 0) return <p>No tasks found</p>;
+  const renderTasks = () => {
+    if (data?.length === 0) return <p>No tasks found</p>;
+
+    return (
+      <ul>
+        {data?.map((task) => (
+          <TaskItem key={task.id} {...task} />
+        ))}
+      </ul>
+    );
+  };
 
   return (
-    <ul>
-      {data?.map((task) => (
-        <TaskItem key={task.id} {...task} />
-      ))}
-    </ul>
+    <>
+      <Link href="/tasks/new">Add task</Link>
+      {renderTasks()}
+    </>
   );
 };

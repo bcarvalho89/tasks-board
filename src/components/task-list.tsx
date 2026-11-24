@@ -2,6 +2,7 @@
 
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
+import { TaskItem } from "./task-item";
 
 export const TaskList = () => {
   const trpc = useTRPC();
@@ -17,7 +18,7 @@ export const TaskList = () => {
   return (
     <ul>
       {data?.map((task) => (
-        <li key={task.id}>{task.titulo}</li>
+        <TaskItem key={task.id} {...task} />
       ))}
     </ul>
   );

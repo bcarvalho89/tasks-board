@@ -13,6 +13,8 @@ const buttonVariants = cva(
         outline: "border-input bg-card text-foreground hover:bg-muted",
         ghost: "text-foreground hover:bg-muted",
         destructive: "text-destructive hover:bg-destructive-soft",
+        "destructive-solid":
+          "bg-destructive text-destructive-foreground hover:bg-[color-mix(in_oklch,var(--destructive),var(--foreground)_15%)]",
       },
       size: {
         default: "h-11 px-4",

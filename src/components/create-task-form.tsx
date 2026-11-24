@@ -5,6 +5,7 @@ import { useToast } from "./toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { TaskForm } from "./task-form";
+import { getErrorMessage } from "@/lib/error-message";
 
 export const CreateTaskForm = () => {
   const { show } = useToast();
@@ -39,7 +40,7 @@ export const CreateTaskForm = () => {
       key={data?.id}
       isSubmitting={isPending}
       onSubmit={create}
-      serverError={error?.message}
+      serverError={error ? getErrorMessage(error) : undefined}
     />
   );
 };

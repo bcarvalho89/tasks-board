@@ -5,6 +5,7 @@ import { useToast } from "./toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { TaskForm } from "./task-form";
+import { getErrorMessage } from "@/lib/error-message";
 
 export const EditTaskForm = ({ id }: { id: string }) => {
   const { show } = useToast();
@@ -55,7 +56,7 @@ export const EditTaskForm = ({ id }: { id: string }) => {
           id,
         });
       }}
-      serverError={error?.message}
+      serverError={error ? getErrorMessage(error) : undefined}
     />
   );
 };

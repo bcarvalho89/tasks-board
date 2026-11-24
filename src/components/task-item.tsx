@@ -3,6 +3,7 @@ import { useTRPC } from "@/trpc/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./toast";
 import Link from "next/link";
+import { getErrorMessage } from "@/lib/error-message";
 
 export const TaskItem = (task: TaskRouterOutputs["get"]) => {
   const { id, titulo } = task;
@@ -24,7 +25,7 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
       },
       onError: (error) => {
         show({
-          message: error.message,
+          message: getErrorMessage(error),
           type: "error",
         });
       },

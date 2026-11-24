@@ -3,6 +3,8 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/react";
 import { ToastProvider } from "@/components/toast";
+import { SquareCheckBig } from "lucide-react";
+import Link from "next/link";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -17,10 +19,27 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${jakarta.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <TRPCReactProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </TRPCReactProvider>
+      <body className="flex min-h-full flex-col">
+        <header className="border-b border-border bg-card">
+          <div className="mx-auto flex h-16 w-full max-w-2xl items-center px-4">
+            <Link
+              href="/"
+              className="flex items-center gap-2 rounded-sm text-lg font-bold outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
+            >
+              <SquareCheckBig
+                className="size-6 text-primary"
+                aria-hidden="true"
+              />
+              Task Board
+            </Link>
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
+          <TRPCReactProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </TRPCReactProvider>
+        </main>
       </body>
     </html>
   );

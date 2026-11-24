@@ -29,7 +29,7 @@ export const CreateTaskForm = () => {
         router.push("/");
 
         return queryClient.invalidateQueries({
-          queryKey: trpc.task.list.queryKey(),
+          queryKey: trpc.task.list.pathKey(),
         });
       },
     }),

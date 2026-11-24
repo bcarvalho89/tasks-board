@@ -20,7 +20,7 @@ export const TaskItem = (task: TaskRouterOutputs["get"]) => {
         });
 
         return queryClient.invalidateQueries({
-          queryKey: trpc.task.list.queryKey(),
+          queryKey: trpc.task.list.pathKey(),
         });
       },
       onError: (error) => {

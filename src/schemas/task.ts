@@ -18,6 +18,11 @@ const taskSchema = z.object({
   dataCriacao: z.number(),
 });
 
+const taskListInputSchema = z.object({
+  cursor: z.uuid().nullish(),
+  limit: z.int().min(1).max(100).default(10),
+});
+
 const taskCreateInputSchema = taskSchema.pick({
   titulo: true,
   descricao: true,
@@ -33,6 +38,7 @@ const taskIdInputSchema = taskSchema.pick({ id: true });
 type Task = z.infer<typeof taskSchema>;
 
 export {
+  taskListInputSchema,
   taskCreateInputSchema,
   taskUpdateInputSchema,
   taskIdInputSchema,

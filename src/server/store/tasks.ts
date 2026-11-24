@@ -11,10 +11,20 @@ const collection = globalForCollection.collection ?? new Map<string, Task>();
 
 globalForCollection.collection = collection;
 
-const list = () => {
-  const tasks = collection.values();
+const list = ({ cursor, limit }: { cursor?: string | null; limit: number }) => {
+  const tasks = [...collection.values()].reverse();
 
-  return [...tasks];
+  const startIndex = cursor
+    ? tasks.findIndex((item) => item.id === cursor) + 1
+    : 0;
+  const endIndex = startIndex + limit;
+
+  const items = tasks.slice(startIndex, endIndex);
+
+  return {
+    items,
+    nextCursor: endIndex < tasks.length ? items.at(-1)?.id : null,
+  };
 };
 
 const get = (id: string) => {

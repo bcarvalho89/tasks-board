@@ -4,13 +4,14 @@ import { publicProcedure, router } from "@/server/api/trpc";
 import {
   taskCreateInputSchema,
   taskIdInputSchema,
+  taskListInputSchema,
   taskUpdateInputSchema,
 } from "@/schemas/task";
 import { TRPCError } from "@trpc/server";
 
 export const taskRouter = router({
-  list: publicProcedure.query(() => {
-    return list();
+  list: publicProcedure.input(taskListInputSchema).query(({ input }) => {
+    return list(input);
   }),
 
   create: publicProcedure.input(taskCreateInputSchema).mutation(({ input }) => {

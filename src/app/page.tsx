@@ -14,7 +14,16 @@ export default async function Home() {
 
   const queryClient = getQueryClient();
   // If it fails on the server, the client fetches the list again.
-  await queryClient.query(trpc.task.list.queryOptions()).catch(() => {});
+  await queryClient
+    .infiniteQuery(
+      trpc.task.list.infiniteQueryOptions(
+        {},
+        {
+          getNextPageParam: (lastPage) => lastPage.nextCursor,
+        },
+      ),
+    )
+    .catch(() => {});
 
   return (
     <div>

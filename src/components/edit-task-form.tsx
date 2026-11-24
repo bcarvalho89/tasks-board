@@ -32,10 +32,10 @@ export const EditTaskForm = ({ id }: { id: string }) => {
 
         return Promise.all([
           queryClient.invalidateQueries({
-            queryKey: trpc.task.list.queryKey(),
+            queryKey: trpc.task.list.pathKey(),
           }),
           queryClient.invalidateQueries({
-            queryKey: trpc.task.get.queryKey(),
+            queryKey: trpc.task.get.pathKey(),
           }),
         ]);
       },
